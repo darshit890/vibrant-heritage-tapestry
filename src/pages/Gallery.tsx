@@ -1,20 +1,28 @@
+
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { Filter, Camera, Heart, Share2, Download, Landmark, Paintbrush, User, Map, MapPin, ChevronDown, X } from 'lucide-react';
 
-const Sparkles = () => (
+// Create custom icon component for the missing icons with proper props interface
+interface IconProps {
+  size?: number;
+  className?: string;
+}
+
+const Sparkles: React.FC<IconProps> = ({ size = 24, className }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
+    width={size}
+    height={size}
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
+    className={className}
   >
     <path d="m12 3-1.9 5.8a2 2 0 0 1-1.287 1.288L3 12l5.8 1.9a2 2 0 0 1 1.288 1.287L12 21l1.9-5.8a2 2 0 0 1 1.287-1.288L21 12l-5.8-1.9a2 2 0 0 1-1.288-1.287Z" />
   </svg>

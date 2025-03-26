@@ -2,18 +2,24 @@
 import { Instagram, Facebook, Twitter, MapPin, Mail, Phone, Heart, Youtube, Linkedin, BookOpen, Calendar, Landmark } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-// Create custom icon components for the missing icons
-const Utensils = () => (
+// Create custom icon components for the missing icons with proper props interface
+interface IconProps {
+  size?: number;
+  className?: string;
+}
+
+const Utensils: React.FC<IconProps> = ({ size = 24, className }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
+    width={size}
+    height={size}
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
+    className={className}
   >
     <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2" />
     <path d="M7 2v20" />
@@ -21,17 +27,18 @@ const Utensils = () => (
   </svg>
 );
 
-const Music = () => (
+const Music: React.FC<IconProps> = ({ size = 24, className }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
+    width={size}
+    height={size}
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
+    className={className}
   >
     <path d="M9 18V5l12-2v13" />
     <circle cx="6" cy="18" r="3" />
