@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -20,11 +21,11 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Home', href: '#home' },
-    { name: 'Heritage', href: '#heritage' },
-    { name: 'Culture', href: '#culture' },
-    { name: 'Gallery', href: '#gallery' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'Home', href: '/' },
+    { name: 'Heritage', href: '/heritage' },
+    { name: 'Culture', href: '/culture' },
+    { name: 'Gallery', href: '/gallery' },
+    { name: 'Contact', href: '/contact' },
   ];
 
   return (
@@ -36,22 +37,22 @@ const Navbar = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
           <div className="flex items-center">
-            <span className="text-2xl font-yatra text-gradient-primary">
+            <Link to="/" className="text-2xl font-yatra text-gradient-primary">
               Vibrant Heritage
-            </span>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:block">
             <div className="flex items-center space-x-8">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.name}
-                  href={link.href}
+                  to={link.href}
                   className="font-medium text-gray-800 hover:text-india-saffron transition-base relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-india-saffron after:transition-all hover:after:w-full"
                 >
                   {link.name}
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -78,15 +79,15 @@ const Navbar = () => {
         <div className="md:hidden glass animate-fade-in">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             {navLinks.map((link, index) => (
-              <a
+              <Link
                 key={link.name}
-                href={link.href}
+                to={link.href}
                 className={`block px-3 py-2 rounded-md text-base font-medium hover:bg-white/20 animate-fade-in-up`}
                 style={{ animationDelay: `${index * 100}ms` }}
                 onClick={() => setIsMenuOpen(false)}
               >
                 {link.name}
-              </a>
+              </Link>
             ))}
           </div>
         </div>

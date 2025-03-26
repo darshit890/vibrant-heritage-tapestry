@@ -1,5 +1,6 @@
 
-import { Instagram, Facebook, Twitter, MapPin, Mail, Phone, Heart } from 'lucide-react';
+import { Instagram, Facebook, Twitter, MapPin, Mail, Phone, Heart, Youtube, Linkedin, BookOpen, Calendar, Landmark } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -43,6 +44,12 @@ const Footer = () => {
                   <a href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white/80 hover:bg-india-gold hover:text-white transition-colors">
                     <Twitter size={18} />
                   </a>
+                  <a href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white/80 hover:bg-india-gold hover:text-white transition-colors">
+                    <Youtube size={18} />
+                  </a>
+                  <a href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white/80 hover:bg-india-gold hover:text-white transition-colors">
+                    <Linkedin size={18} />
+                  </a>
                 </div>
               </div>
             </div>
@@ -53,15 +60,21 @@ const Footer = () => {
                 Quick Links
               </h4>
               <ul className="space-y-3">
-                {['Home', 'Heritage', 'Culture', 'Gallery', 'Contact'].map((link) => (
-                  <li key={link}>
-                    <a 
-                      href={`#${link.toLowerCase()}`} 
+                {[
+                  { name: 'Home', path: '/' },
+                  { name: 'Heritage', path: '/heritage' },
+                  { name: 'Culture', path: '/culture' },
+                  { name: 'Gallery', path: '/gallery' },
+                  { name: 'Contact', path: '/contact' }
+                ].map((link) => (
+                  <li key={link.name}>
+                    <Link
+                      to={link.path}
                       className="text-white/80 hover:text-india-gold transition-colors flex items-center gap-2 group"
                     >
                       <span className="w-0 group-hover:w-2 h-px bg-india-gold transition-all"></span>
-                      {link}
-                    </a>
+                      {link.name}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -73,14 +86,23 @@ const Footer = () => {
                 Explore
               </h4>
               <ul className="space-y-3">
-                {['Architecture', 'Art Forms', 'Festivals', 'Cuisine', 'Music'].map((item) => (
-                  <li key={item}>
+                {[
+                  { name: 'Architecture', icon: <Landmark size={14} /> },
+                  { name: 'Art Forms', icon: <BookOpen size={14} /> },
+                  { name: 'Festivals', icon: <Calendar size={14} /> },
+                  { name: 'Cuisine', icon: <Utensils size={14} /> },
+                  { name: 'Music', icon: <Music size={14} /> }
+                ].map((item) => (
+                  <li key={item.name}>
                     <a 
                       href="#" 
                       className="text-white/80 hover:text-india-gold transition-colors flex items-center gap-2 group"
                     >
                       <span className="w-0 group-hover:w-2 h-px bg-india-gold transition-all"></span>
-                      {item}
+                      <span className="flex items-center gap-1.5">
+                        {item.icon}
+                        {item.name}
+                      </span>
                     </a>
                   </li>
                 ))}
@@ -135,6 +157,21 @@ const Footer = () => {
           
           {/* Footer Bottom */}
           <div className="mt-16 pt-8 border-t border-white/10 text-center text-white/60">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+              <div className="bg-white/5 rounded-lg p-4">
+                <h5 className="text-india-gold text-sm font-medium mb-2">Heritage Sites</h5>
+                <p className="text-white/70 text-xs">Explore India's UNESCO World Heritage sites and historical monuments</p>
+              </div>
+              <div className="bg-white/5 rounded-lg p-4">
+                <h5 className="text-india-gold text-sm font-medium mb-2">Cultural Events</h5>
+                <p className="text-white/70 text-xs">Discover festivals, performances, and exhibitions across the country</p>
+              </div>
+              <div className="bg-white/5 rounded-lg p-4">
+                <h5 className="text-india-gold text-sm font-medium mb-2">Preservation Efforts</h5>
+                <p className="text-white/70 text-xs">Learn about initiatives to protect and preserve India's cultural legacy</p>
+              </div>
+            </div>
+            
             <div className="flex flex-col md:flex-row items-center justify-center gap-2 text-sm">
               <p>© {currentYear} Vibrant Heritage. All rights reserved.</p>
               <span className="hidden md:inline">•</span>

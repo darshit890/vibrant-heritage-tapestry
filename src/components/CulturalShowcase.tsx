@@ -1,6 +1,6 @@
 
 import { useEffect } from 'react';
-import { Landmark, BookOpen, Scroll, Palette } from 'lucide-react';
+import { Landmark, BookOpen, Scroll, Palette, Music, Utensils } from 'lucide-react';
 
 const CulturalShowcase = () => {
   useEffect(() => {
@@ -25,38 +25,38 @@ const CulturalShowcase = () => {
 
   const heritageItems = [
     {
-      title: 'Architectural Marvels',
+      title: "Architectural Marvels",
       description: "From the majestic Taj Mahal to the intricate temples of Khajuraho, India's architectural heritage spans millennia.",
-      iconClass: 'bg-india-saffron/10',
-      color: 'text-india-saffron',
-      border: 'border-india-saffron/30',
+      iconClass: "bg-india-saffron/10",
+      color: "text-india-saffron",
+      border: "border-india-saffron/30",
       icon: <Landmark className="text-india-saffron" />,
       detail: "India's architectural journey reflects its historical diversity, from the ancient Indus Valley Civilization structures to the ornate Indo-Islamic monuments and colonial buildings."
     },
     {
-      title: 'Classical Dance Forms',
-      description: 'Bharatanatyam, Kathak, Odissi, and other classical dance forms tell stories through graceful movements and expressions.',
-      iconClass: 'bg-india-green/10',
-      color: 'text-india-green',
-      border: 'border-india-green/30',
+      title: "Classical Dance Forms",
+      description: "Bharatanatyam, Kathak, Odissi, and other classical dance forms tell stories through graceful movements and expressions.",
+      iconClass: "bg-india-green/10",
+      color: "text-india-green",
+      border: "border-india-green/30",
       icon: <Palette className="text-india-green" />,
       detail: "Each of India's eight classical dance forms represents a particular region and tradition, with distinctive costumes, music, and storytelling techniques passed down through generations."
     },
     {
-      title: 'Textile Traditions',
+      title: "Textile Traditions",
       description: "Handloom weaving, block printing, embroidery, and other textile crafts reflect India's rich artistic heritage.",
-      iconClass: 'bg-india-blue/10',
-      color: 'text-india-blue',
-      border: 'border-india-blue/30',
+      iconClass: "bg-india-blue/10",
+      color: "text-india-blue",
+      border: "border-india-blue/30",
       icon: <Scroll className="text-india-blue" />,
       detail: "From the intricate Pashmina shawls of Kashmir to the vibrant silk sarees of Kanchipuram, each region has developed unique textile traditions representing local cultural motifs and techniques."
     },
     {
-      title: 'Ancient Scriptures',
-      description: 'The Vedas, Upanishads, and epics like Ramayana and Mahabharata form the foundation of Indian philosophical thought.',
-      iconClass: 'bg-india-gold/10',
-      color: 'text-india-gold',
-      border: 'border-india-gold/30',
+      title: "Ancient Scriptures",
+      description: "The Vedas, Upanishads, and epics like Ramayana and Mahabharata form the foundation of Indian philosophical thought.",
+      iconClass: "bg-india-gold/10",
+      color: "text-india-gold",
+      border: "border-india-gold/30",
       icon: <BookOpen className="text-india-gold" />,
       detail: "Dating back over 3,000 years, these Sanskrit texts explore profound philosophical concepts, ethical principles, and cultural narratives that continue to influence Indian society."
     }
