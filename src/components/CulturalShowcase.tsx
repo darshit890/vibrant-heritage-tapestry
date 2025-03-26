@@ -25,7 +25,7 @@ const CulturalShowcase = () => {
   const heritageItems = [
     {
       title: 'Architectural Marvels',
-      description: 'From the majestic Taj Mahal to the intricate temples of Khajuraho, India's architectural heritage spans millennia.',
+      description: "From the majestic Taj Mahal to the intricate temples of Khajuraho, India's architectural heritage spans millennia.",
       iconClass: 'bg-india-saffron/10',
       color: 'text-india-saffron',
       border: 'border-india-saffron/30'
@@ -39,7 +39,7 @@ const CulturalShowcase = () => {
     },
     {
       title: 'Textile Traditions',
-      description: 'Handloom weaving, block printing, embroidery, and other textile crafts reflect India's rich artistic heritage.',
+      description: "Handloom weaving, block printing, embroidery, and other textile crafts reflect India's rich artistic heritage.",
       iconClass: 'bg-india-blue/10',
       color: 'text-india-blue',
       border: 'border-india-blue/30'
