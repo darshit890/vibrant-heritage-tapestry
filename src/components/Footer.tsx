@@ -2,6 +2,43 @@
 import { Instagram, Facebook, Twitter, MapPin, Mail, Phone, Heart, Youtube, Linkedin, BookOpen, Calendar, Landmark } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+// Create custom icon components for the missing icons
+const Utensils = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2" />
+    <path d="M7 2v20" />
+    <path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7" />
+  </svg>
+);
+
+const Music = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M9 18V5l12-2v13" />
+    <circle cx="6" cy="18" r="3" />
+    <circle cx="18" cy="16" r="3" />
+  </svg>
+);
+
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   
