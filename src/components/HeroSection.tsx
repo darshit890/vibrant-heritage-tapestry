@@ -1,8 +1,10 @@
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
+import ThreeDModel from './ThreeDModel';
+import ImageVideoSlider from './ImageVideoSlider';
 
 // Register the GSAP plugins
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
@@ -14,6 +16,20 @@ const HeroSection = () => {
   const ctaRef = useRef<HTMLDivElement>(null);
   const decorRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const modelContainerRef = useRef<HTMLDivElement>(null);
+  const [scrollY, setScrollY] = useState(0);
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
   
   useEffect(() => {
     // Initial animations for epic hero section
@@ -47,7 +63,13 @@ const HeroSection = () => {
       y: -20, 
       opacity: 0, 
       duration: 0.5 
-    }, "-=0.3");
+    }, "-=0.3")
+    .from(modelContainerRef.current, {
+      opacity: 0,
+      scale: 0.5,
+      duration: 1.2,
+      ease: "back.out(1.7)"
+    }, "-=0.5");
 
     // Scroll-based animations
     // Create scroll-triggered animations for heading
@@ -89,6 +111,19 @@ const HeroSection = () => {
       yoyo: true,
       ease: "sine.inOut",
       stagger: 0.3
+    });
+
+    // 3D model container animation
+    gsap.to(modelContainerRef.current, {
+      scrollTrigger: {
+        trigger: modelContainerRef.current,
+        start: "top 80%",
+        end: "bottom 20%",
+        scrub: true
+      },
+      rotation: 360,
+      duration: 2,
+      ease: "none"
     });
 
     // Interactive scroll-triggered content sections
@@ -268,39 +303,53 @@ const HeroSection = () => {
       </div>
       
       <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center max-w-4xl mx-auto">
-          <div className="mb-6 inline-block">
-            <span className="inline-block px-4 py-1 rounded-full bg-india-saffron/10 text-india-saffron text-sm font-medium animate-fade-in">Discover India's Legacy</span>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+          <div className="text-center lg:text-left">
+            <div className="mb-6 inline-block">
+              <span className="inline-block px-4 py-1 rounded-full bg-india-saffron/10 text-india-saffron text-sm font-medium animate-fade-in">Discover India's Legacy</span>
+            </div>
+            
+            <h1 
+              ref={headingRef}
+              className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-balance"
+            >
+              <span className="block">Experience India's</span>
+              <span className="block text-gradient-primary">Timeless Wonder</span>
+            </h1>
+            
+            <p 
+              ref={subheadingRef}
+              className="text-lg md:text-xl text-gray-700 mb-8 max-w-2xl mx-auto lg:mx-0"
+            >
+              Embark on a mesmerizing journey through India's rich cultural tapestry, ancient traditions, and architectural marvels that have stood the test of time.
+            </p>
+            
+            <div ref={ctaRef} className="space-x-4">
+              <a 
+                href="#heritage" 
+                className="inline-block px-6 py-3 rounded-full bg-india-saffron text-white font-medium transition-all hover:shadow-lg hover:shadow-india-saffron/20 hover:-translate-y-1"
+              >
+                Explore Heritage
+              </a>
+              <a 
+                href="#gallery" 
+                className="inline-block px-6 py-3 rounded-full bg-white border border-india-saffron text-india-saffron font-medium transition-all hover:shadow-lg hover:bg-india-saffron/5"
+              >
+                View Gallery
+              </a>
+            </div>
           </div>
           
-          <h1 
-            ref={headingRef}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-balance"
+          <div 
+            className="relative h-[500px] w-full rounded-xl overflow-hidden shadow-2xl"
+            ref={modelContainerRef}
           >
-            <span className="block">Experience India's</span>
-            <span className="block text-gradient-primary">Timeless Wonder</span>
-          </h1>
-          
-          <p 
-            ref={subheadingRef}
-            className="text-lg md:text-xl text-gray-700 mb-8 max-w-2xl mx-auto"
-          >
-            Embark on a mesmerizing journey through India's rich cultural tapestry, ancient traditions, and architectural marvels that have stood the test of time.
-          </p>
-          
-          <div ref={ctaRef} className="space-x-4">
-            <a 
-              href="#heritage" 
-              className="inline-block px-6 py-3 rounded-full bg-india-saffron text-white font-medium transition-all hover:shadow-lg hover:shadow-india-saffron/20 hover:-translate-y-1"
-            >
-              Explore Heritage
-            </a>
-            <a 
-              href="#gallery" 
-              className="inline-block px-6 py-3 rounded-full bg-white border border-india-saffron text-india-saffron font-medium transition-all hover:shadow-lg hover:bg-india-saffron/5"
-            >
-              View Gallery
-            </a>
+            <div className="absolute inset-0 z-10 opacity-90">
+              <ImageVideoSlider />
+            </div>
+            <div className="absolute top-0 left-0 w-full h-full z-0 opacity-30">
+              <ThreeDModel scrollY={scrollY} />
+            </div>
           </div>
         </div>
       </div>
