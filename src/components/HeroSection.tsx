@@ -2,9 +2,10 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 
-// Register the ScrollTrigger plugin
-gsap.registerPlugin(ScrollTrigger);
+// Register the GSAP plugins
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 const HeroSection = () => {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -12,9 +13,10 @@ const HeroSection = () => {
   const subheadingRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const decorRef = useRef<HTMLDivElement>(null);
+  const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
   
   useEffect(() => {
-    // GSAP animations for epic hero section
+    // Initial animations for epic hero section
     const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
     
     tl.from(".hero-bg-element", { 
@@ -47,6 +49,21 @@ const HeroSection = () => {
       duration: 0.5 
     }, "-=0.3");
 
+    // Scroll-based animations
+    // Create scroll-triggered animations for heading
+    gsap.to(headingRef.current, {
+      scrollTrigger: {
+        trigger: heroRef.current,
+        start: "top top",
+        end: "center top",
+        scrub: true
+      },
+      scale: 0.9,
+      letterSpacing: "2px",
+      opacity: 0.8,
+      filter: "blur(2px)"
+    });
+    
     // Parallax effect for background elements
     const parallaxElements = document.querySelectorAll('.parallax');
     
@@ -74,9 +91,58 @@ const HeroSection = () => {
       stagger: 0.3
     });
 
+    // Interactive scroll-triggered content sections
+    const contentSections = sectionRefs.current;
+    contentSections.forEach((section, index) => {
+      if (!section) return;
+      
+      // Create a staggered reveal effect for each content section
+      gsap.from(section.querySelectorAll('.content-item'), {
+        scrollTrigger: {
+          trigger: section,
+          start: "top 80%",
+          toggleActions: "play none none reverse"
+        },
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: "power2.out"
+      });
+      
+      // Add a special effect to the icon
+      gsap.to(section.querySelector('.section-icon'), {
+        scrollTrigger: {
+          trigger: section,
+          start: "top 70%",
+          end: "center 50%",
+          scrub: true
+        },
+        rotation: 360,
+        scale: 1.2,
+        duration: 1,
+        ease: "power1.inOut"
+      });
+    });
+
+    // Scroll indicator interaction
+    const scrollIndicator = document.querySelector('.scroll-indicator');
+    if (scrollIndicator) {
+      scrollIndicator.addEventListener('click', () => {
+        gsap.to(window, {
+          duration: 1, 
+          scrollTo: { y: window.innerHeight, autoKill: false },
+          ease: "power2.inOut"
+        });
+      });
+    }
+
     // Clean up
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      if (scrollIndicator) {
+        scrollIndicator.removeEventListener('click', () => {});
+      }
     };
   }, []);
 
@@ -89,13 +155,21 @@ const HeroSection = () => {
       const x = clientX / window.innerWidth;
       const y = clientY / window.innerHeight;
       
-      // Parallax effect
+      // Enhanced interactive parallax effect
       const elements = hero.querySelectorAll('.parallax');
       elements.forEach((el) => {
         const speed = parseFloat((el as HTMLElement).dataset.speed || '0.05');
         const xOffset = (x - 0.5) * speed * 100;
         const yOffset = (y - 0.5) * speed * 100;
         (el as HTMLElement).style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+      });
+      
+      // Add subtle rotation to decorative elements
+      const decorElements = hero.querySelectorAll('.floating-decor');
+      decorElements.forEach((el) => {
+        const rotateX = (y - 0.5) * 10;
+        const rotateY = (x - 0.5) * 10;
+        (el as HTMLElement).style.transform += ` rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
       });
     };
     
@@ -110,7 +184,7 @@ const HeroSection = () => {
     <section 
       id="home" 
       ref={heroRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
     >
       {/* Epic Background with multiple layers */}
       <div className="absolute inset-0 overflow-hidden">
@@ -125,6 +199,10 @@ const HeroSection = () => {
         <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-india-green/20 rounded-full blur-3xl hero-bg-element parallax" data-speed="0.03"></div>
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-india-blue/10 rounded-full blur-2xl hero-bg-element parallax" data-speed="0.05"></div>
         <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-india-gold/15 rounded-full blur-3xl hero-bg-element parallax" data-speed="0.04"></div>
+        
+        {/* Add new animated background elements */}
+        <div className="absolute top-1/3 right-1/3 w-48 h-48 bg-purple-500/10 rounded-full blur-2xl hero-bg-element parallax" data-speed="0.06"></div>
+        <div className="absolute bottom-1/3 left-2/3 w-56 h-56 bg-pink-500/10 rounded-full blur-2xl hero-bg-element parallax" data-speed="0.07"></div>
       </div>
       
       {/* Decorative Elements */}
@@ -152,6 +230,10 @@ const HeroSection = () => {
         <div className="absolute bottom-1/3 left-1/3 w-16 h-16 border border-india-saffron opacity-30 rounded-full parallax floating-decor" style={{ animationDirection: 'reverse' }} data-speed="0.06"></div>
         <div className="absolute top-1/2 left-1/5 w-8 h-8 bg-india-gold/30 rounded-full parallax floating-decor" data-speed="0.07"></div>
         
+        {/* New decorative elements */}
+        <div className="absolute top-1/3 right-1/5 w-12 h-12 border-2 border-india-blue opacity-20 rounded-full parallax floating-decor" data-speed="0.05"></div>
+        <div className="absolute bottom-1/4 left-1/4 w-10 h-10 bg-india-green/20 rounded-full parallax floating-decor" data-speed="0.08"></div>
+        
         {/* Traditional symbols */}
         <div className="absolute top-20 right-[20%] w-12 h-12 opacity-20 rotating parallax" data-speed="0.05">
           <img 
@@ -164,6 +246,22 @@ const HeroSection = () => {
           <img 
             src="https://static.vecteezy.com/system/resources/previews/010/160/767/original/chakra-wheel-icon-sign-symbol-design-free-png.png" 
             alt="Chakra wheel" 
+            className="w-full h-full object-contain" 
+          />
+        </div>
+        
+        {/* New traditional symbols */}
+        <div className="absolute top-[30%] left-[15%] w-14 h-14 opacity-20 rotating parallax" data-speed="0.04">
+          <img 
+            src="https://static.vecteezy.com/system/resources/previews/011/571/348/original/mandala-circle-round-ornament-traditional-free-png.png" 
+            alt="Mandala" 
+            className="w-full h-full object-contain" 
+          />
+        </div>
+        <div className="absolute bottom-[35%] right-[25%] w-10 h-10 opacity-20 rotating parallax" data-speed="0.06">
+          <img 
+            src="https://www.iconpacks.net/icons/2/free-lotus-icon-1809-thumb.png" 
+            alt="Lotus" 
             className="w-full h-full object-contain" 
           />
         </div>
@@ -207,8 +305,67 @@ const HeroSection = () => {
         </div>
       </div>
       
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce scroll-indicator">
+      {/* Interactive content sections that reveal on scroll */}
+      <div className="w-full mt-32 mb-16 px-6">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Content Section 1 */}
+          <div 
+            ref={(el) => (sectionRefs.current[0] = el)}
+            className="bg-white/50 backdrop-blur-sm p-6 rounded-xl shadow-lg"
+          >
+            <div className="section-icon bg-india-saffron/10 p-3 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <img 
+                src="https://cdn-icons-png.flaticon.com/512/3127/3127166.png" 
+                alt="Heritage Icon" 
+                className="w-10 h-10 content-item" 
+              />
+            </div>
+            <h3 className="text-xl font-bold text-center mb-3 content-item">Rich Heritage</h3>
+            <p className="text-gray-700 text-center content-item">
+              Discover centuries of history through magnificent monuments, ancient temples, and royal palaces.
+            </p>
+          </div>
+          
+          {/* Content Section 2 */}
+          <div 
+            ref={(el) => (sectionRefs.current[1] = el)}
+            className="bg-white/50 backdrop-blur-sm p-6 rounded-xl shadow-lg"
+          >
+            <div className="section-icon bg-india-green/10 p-3 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <img 
+                src="https://cdn-icons-png.flaticon.com/512/3588/3588200.png" 
+                alt="Culture Icon" 
+                className="w-10 h-10 content-item" 
+              />
+            </div>
+            <h3 className="text-xl font-bold text-center mb-3 content-item">Vibrant Culture</h3>
+            <p className="text-gray-700 text-center content-item">
+              Experience the kaleidoscope of traditions, festivals, music, and dance that define India's soul.
+            </p>
+          </div>
+          
+          {/* Content Section 3 */}
+          <div 
+            ref={(el) => (sectionRefs.current[2] = el)}
+            className="bg-white/50 backdrop-blur-sm p-6 rounded-xl shadow-lg"
+          >
+            <div className="section-icon bg-india-blue/10 p-3 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <img 
+                src="https://cdn-icons-png.flaticon.com/512/2413/2413392.png" 
+                alt="Cuisine Icon" 
+                className="w-10 h-10 content-item" 
+              />
+            </div>
+            <h3 className="text-xl font-bold text-center mb-3 content-item">Divine Cuisine</h3>
+            <p className="text-gray-700 text-center content-item">
+              Savor the diverse flavors and aromas of authentic Indian dishes that tantalize your taste buds.
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      {/* Scroll Indicator - now interactive */}
+      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce scroll-indicator cursor-pointer">
         <div className="w-8 h-12 rounded-full border-2 border-gray-400 flex justify-center p-1">
           <div className="w-1 h-3 bg-gray-400 rounded-full"></div>
         </div>
