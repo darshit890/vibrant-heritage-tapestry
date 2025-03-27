@@ -41,7 +41,7 @@ const Index = () => {
     <div className="relative">
       <Navbar />
       <main>
-        <HeroSection scrollY={scrollY} />
+        <HeroSection />
         <CulturalShowcase />
         <Gallery />
       </main>

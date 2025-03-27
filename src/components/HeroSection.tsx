@@ -4,11 +4,12 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import ThreeDModel from './ThreeDModel';
+import ImageVideoSlider from './ImageVideoSlider';
 
 // Register the GSAP plugins
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
-const HeroSection = ({ scrollY }: { scrollY: number }) => {
+const HeroSection = () => {
   const heroRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const subheadingRef = useRef<HTMLParagraphElement>(null);
@@ -16,6 +17,19 @@ const HeroSection = ({ scrollY }: { scrollY: number }) => {
   const decorRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
   const modelContainerRef = useRef<HTMLDivElement>(null);
+  const [scrollY, setScrollY] = useState(0);
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
   
   useEffect(() => {
     // Initial animations for epic hero section
@@ -205,7 +219,7 @@ const HeroSection = ({ scrollY }: { scrollY: number }) => {
     <section 
       id="home" 
       ref={heroRef}
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden py-20"
+      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
     >
       {/* Epic Background with multiple layers */}
       <div className="absolute inset-0 overflow-hidden">
@@ -220,6 +234,8 @@ const HeroSection = ({ scrollY }: { scrollY: number }) => {
         <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-india-green/20 rounded-full blur-3xl hero-bg-element parallax" data-speed="0.03"></div>
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-india-blue/10 rounded-full blur-2xl hero-bg-element parallax" data-speed="0.05"></div>
         <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-india-gold/15 rounded-full blur-3xl hero-bg-element parallax" data-speed="0.04"></div>
+        
+        {/* Add new animated background elements */}
         <div className="absolute top-1/3 right-1/3 w-48 h-48 bg-purple-500/10 rounded-full blur-2xl hero-bg-element parallax" data-speed="0.06"></div>
         <div className="absolute bottom-1/3 left-2/3 w-56 h-56 bg-pink-500/10 rounded-full blur-2xl hero-bg-element parallax" data-speed="0.07"></div>
       </div>
@@ -248,6 +264,8 @@ const HeroSection = ({ scrollY }: { scrollY: number }) => {
         <div className="absolute top-1/4 right-1/4 w-24 h-24 border-2 border-india-gold opacity-20 rounded-full parallax floating-decor" data-speed="0.04"></div>
         <div className="absolute bottom-1/3 left-1/3 w-16 h-16 border border-india-saffron opacity-30 rounded-full parallax floating-decor" style={{ animationDirection: 'reverse' }} data-speed="0.06"></div>
         <div className="absolute top-1/2 left-1/5 w-8 h-8 bg-india-gold/30 rounded-full parallax floating-decor" data-speed="0.07"></div>
+        
+        {/* New decorative elements */}
         <div className="absolute top-1/3 right-1/5 w-12 h-12 border-2 border-india-blue opacity-20 rounded-full parallax floating-decor" data-speed="0.05"></div>
         <div className="absolute bottom-1/4 left-1/4 w-10 h-10 bg-india-green/20 rounded-full parallax floating-decor" data-speed="0.08"></div>
         
@@ -266,6 +284,8 @@ const HeroSection = ({ scrollY }: { scrollY: number }) => {
             className="w-full h-full object-contain" 
           />
         </div>
+        
+        {/* New traditional symbols */}
         <div className="absolute top-[30%] left-[15%] w-14 h-14 opacity-20 rotating parallax" data-speed="0.04">
           <img 
             src="https://static.vecteezy.com/system/resources/previews/011/571/348/original/mandala-circle-round-ornament-traditional-free-png.png" 
@@ -282,9 +302,9 @@ const HeroSection = ({ scrollY }: { scrollY: number }) => {
         </div>
       </div>
       
-      <div className="container mx-auto px-6 md:px-8 relative z-10">
-        <div className="grid grid-cols-1 gap-10 items-center">
-          <div className="text-center mb-16">
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+          <div className="text-center lg:text-left">
             <div className="mb-6 inline-block">
               <span className="inline-block px-4 py-1 rounded-full bg-india-saffron/10 text-india-saffron text-sm font-medium animate-fade-in">Discover India's Legacy</span>
             </div>
@@ -299,7 +319,7 @@ const HeroSection = ({ scrollY }: { scrollY: number }) => {
             
             <p 
               ref={subheadingRef}
-              className="text-lg md:text-xl text-gray-700 mb-8 max-w-2xl mx-auto"
+              className="text-lg md:text-xl text-gray-700 mb-8 max-w-2xl mx-auto lg:mx-0"
             >
               Embark on a mesmerizing journey through India's rich cultural tapestry, ancient traditions, and architectural marvels that have stood the test of time.
             </p>
@@ -321,10 +341,13 @@ const HeroSection = ({ scrollY }: { scrollY: number }) => {
           </div>
           
           <div 
-            className="relative h-[600px] w-full max-w-4xl mx-auto rounded-xl overflow-hidden shadow-2xl"
+            className="relative h-[500px] w-full rounded-xl overflow-hidden shadow-2xl"
             ref={modelContainerRef}
           >
-            <div className="absolute inset-0 w-full h-full">
+            <div className="absolute inset-0 z-10 opacity-90">
+              <ImageVideoSlider />
+            </div>
+            <div className="absolute top-0 left-0 w-full h-full z-0 opacity-30">
               <ThreeDModel scrollY={scrollY} />
             </div>
           </div>
@@ -332,7 +355,7 @@ const HeroSection = ({ scrollY }: { scrollY: number }) => {
       </div>
       
       {/* Interactive content sections that reveal on scroll */}
-      <div className="w-full mt-24 mb-16 px-6">
+      <div className="w-full mt-32 mb-16 px-6">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Content Section 1 */}
           <div 
