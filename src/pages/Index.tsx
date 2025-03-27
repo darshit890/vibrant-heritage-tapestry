@@ -1,5 +1,5 @@
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import HeroSection from '../components/HeroSection';
 import CulturalShowcase from '../components/CulturalShowcase';
@@ -7,6 +7,8 @@ import Gallery from '../components/Gallery';
 import Footer from '../components/Footer';
 
 const Index = () => {
+  const [scrollY, setScrollY] = useState(0);
+
   useEffect(() => {
     // Intersection Observer for scroll animations
     const observer = new IntersectionObserver(
@@ -23,8 +25,16 @@ const Index = () => {
     const elements = document.querySelectorAll('.animate-on-scroll');
     elements.forEach((el) => observer.observe(el));
 
+    // Track scroll position
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+
     return () => {
       elements.forEach((el) => observer.unobserve(el));
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -32,7 +42,7 @@ const Index = () => {
     <div className="relative">
       <Navbar />
       <main>
-        <HeroSection />
+        <HeroSection scrollY={scrollY} />
         <CulturalShowcase />
         <Gallery />
       </main>
