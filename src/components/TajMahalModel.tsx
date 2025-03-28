@@ -1,9 +1,8 @@
-
 import { useRef, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
-export const TajMahalModel = ({ scrollY = 0 }: { scrollY?: number }) => {
+const TajMahalModel = ({ scrollY = 0 }: { scrollY?: number }) => {
   const groupRef = useRef<THREE.Group>(null);
   
   // Use the scroll position to affect the model rotation
