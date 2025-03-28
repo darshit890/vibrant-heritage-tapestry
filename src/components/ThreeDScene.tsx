@@ -2,8 +2,6 @@
 import { Suspense } from 'react';
 
 const ThreeDScene = ({ scrollY = 0 }: { scrollY?: number }) => {
-  // The scrollY prop is received but will be handled differently with an iframe embed
-  
   return (
     <div className="w-full h-[400px] md:h-[500px] relative">
       <Suspense fallback={
@@ -15,19 +13,13 @@ const ThreeDScene = ({ scrollY = 0 }: { scrollY?: number }) => {
           <iframe 
             title="Taj Mahal" 
             frameBorder="0" 
-            allowFullScreen 
-            mozallowfullscreen="true" 
-            webkitallowfullscreen="true" 
+            allowFullScreen={true}
             allow="autoplay; fullscreen; xr-spatial-tracking" 
-            xr-spatial-tracking="true"
-            execution-while-out-of-viewport="true"
-            execution-while-not-rendered="true"
-            web-share="true"
-            src="https://sketchfab.com/models/1c7e6ccc93d74681ae74c3d71c252789/embed"
-            className="w-full h-full"
+            src="https://sketchfab.com/models/1c7e6ccc93d74681ae74c3d71c252789/embed?autostart=1&ui_infos=0&ui_controls=0&ui_inspector=0"
+            className="w-full h-full rounded-xl shadow-xl"
             style={{
-              // Apply subtle rotation based on scroll position
-              transform: `perspective(1000px) rotateY(${scrollY * 0.01}deg)`
+              transform: `perspective(1000px) rotateY(${scrollY * 0.01}deg)`,
+              border: 'none'
             }}
           />
         </div>
