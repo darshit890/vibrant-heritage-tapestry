@@ -15,7 +15,7 @@ const ThreeDScene = ({ scrollY = 0 }: { scrollY?: number }) => {
             frameBorder="0" 
             allowFullScreen={true}
             allow="autoplay; fullscreen; xr-spatial-tracking" 
-            src="https://sketchfab.com/models/1c7e6ccc93d74681ae74c3d71c252789/embed?autostart=1&ui_infos=0&ui_controls=0&ui_inspector=0"
+            src="https://sketchfab.com/models/d35e9e0943d449709e68e3cd8879fe79/embed?autostart=1&ui_infos=0&ui_controls=0&ui_inspector=0"
             className="w-full h-full rounded-xl shadow-xl"
             style={{
               transform: `perspective(1000px) rotateY(${scrollY * 0.01}deg)`,
